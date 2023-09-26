@@ -1,8 +1,8 @@
 // =================================================================
 //
 // File: list.h
-// Author:
-// Date:
+// Author: Carlos Galicia - A01709890
+// Date: 19/09/2023
 // 
 // =================================================================
 #ifndef LIST_H
@@ -220,13 +220,21 @@ T List<T>::last() const {
 //
 // @returns the element in index
 // @throws IndexOutOfBounds, if index >= size.
+// @Complexity	O(n)
 // =================================================================
 template <class T>
 T List<T>::get(uint index) const {
-	T aux;
+	if (index >= size){
+		throw IndexOutOfBounds();
+	}
 
-	// TO DO
-	return aux;
+	Node<T> *p;
+	p = head;
+	while (index > 0) {
+		p = p->next;
+		index -= 1;
+	}
+	return p->value;
 }
 
 // =================================================================
@@ -272,10 +280,31 @@ void List<T>::push_back(T val) {
 // was in that position is shifted to the right.
 //
 // @throws IndexOutOfBounds, if index > size.
+// @Complexity	O(n)
 // =================================================================
 template <class T>
 void List<T>::insert_at(T val, uint index) {
-	// TO DO
+	if (index > size){
+		throw IndexOutOfBounds();
+	}
+
+	if (index == 0) {
+		push_front(val);
+		return;
+	}
+
+	Node<T> *p, *q;
+	p = head;
+	while (index-1 > 0) {
+		p = p->next;
+		index -= 1;
+	}
+
+	q = new Node<T>(val);
+	q->next = p->next;
+	p->next = q;
+	size++;
+
 }
 
 // =================================================================
@@ -343,12 +372,38 @@ T List<T>::pop_back() {
 //
 // @returns the element that was in index.
 // @throws IndexOutOfBounds, if index >= size.
+// @Complexity	O(n)
 // =================================================================
 template <class T>
 T List<T>::remove_at(uint index) {
-	T aux;
-	// TO DO
-	return aux;
+	if (index >= size) {
+		throw IndexOutOfBounds();
+	}
+
+	if (index == 0) {
+		return pop_front();
+	}
+
+	Node<T> *p, *q;
+	T val;
+	q = NULL;
+	p = head;
+
+	while (index > 0) {
+		q = p;
+		p = p->next;
+		index -= 1;
+	}
+
+	q->next = p->next;
+	val = p->value;
+
+	delete p;
+	size--;
+
+	return val;
+
+
 }
 
 // =================================================================
@@ -356,10 +411,19 @@ T List<T>::remove_at(uint index) {
 //
 // @returns the position of an item in the list, -1 otherwise.
 // @throws IndexOutOfBounds, if index >= size.
+// @Complexity	O(n)
 // =================================================================
 template <class T>
 long int List<T>::indexOf(T val) const {
-	// TO DO
+	int index;
+
+	for(Node<T>*p = head; p != NULL; p = p->next){
+		if(p->value == val){
+			return index;
+		}
+		index += 1;
+	}
+
 	return -1;
 }
 
